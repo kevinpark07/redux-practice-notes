@@ -1,4 +1,17 @@
-export const addNote = (note) => ({ type: "add note", payload: note })
+export const addNote = (note) => {
+    
+    return function (dispatch) {
+        fetch("http://localhost:3000/notes", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                accepts: "application/json"
+            },
+            body: JSON.stringify(note)
+        }).then(resp => resp.json())
+        .then(noteObj => dispatch({ type: "add note", payload: noteObj }))
+    }
+}
 
 export const getNotes = () => {
     console.log("first dispatch invoked")
